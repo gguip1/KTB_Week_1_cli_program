@@ -1,3 +1,4 @@
+import bgmplayer.BgmPlayer;
 import designer.Designer;
 import developer.BackEndDeveloper;
 import developer.Developer;
@@ -12,6 +13,10 @@ public class Main {
         Worker player;
         String name;
         String skill;
+
+        Thread bgmThread = new Thread(new BgmPlayer("./resources/307a3f44.wav"));
+        bgmThread.setDaemon(true);
+        bgmThread.start();
 
         System.out.println("=========================================");
         System.out.println("👋 안녕하세요! 직업 시뮬레이터에 오신 것을 환영합니다!");
