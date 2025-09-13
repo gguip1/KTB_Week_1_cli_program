@@ -66,11 +66,11 @@ public class Worker {
                 addKnowledge(rand.nextInt(2, 5));
                 break;
         }
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(1500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void vacation() {
@@ -122,11 +122,11 @@ public class Worker {
                 addKnowledge(-2);
                 break;
         }
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(1500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void ask(Worker target){

@@ -65,11 +65,11 @@ public class BackEndDeveloper extends Developer{
                 addKnowledge(rand.nextInt(3, 6));
                 break;
         }
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(1500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override

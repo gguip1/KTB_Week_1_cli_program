@@ -63,11 +63,11 @@ public class Designer extends Worker {
                 addKnowledge(rand.nextInt(3, 7));
                 break;
         }
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(1500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override

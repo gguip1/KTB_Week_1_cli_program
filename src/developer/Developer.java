@@ -68,11 +68,11 @@ public class Developer extends Worker {
                 addKnowledge(rand.nextInt(4, 7));
                 break;
         }
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(1500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override
