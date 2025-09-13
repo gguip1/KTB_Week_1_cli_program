@@ -1,5 +1,8 @@
 package developer;
 
+import designer.Designer;
+import worker.Worker;
+
 public class BackEndDeveloper extends Developer{
 
     public BackEndDeveloper(String name, String programmingLanguage) {
@@ -62,5 +65,94 @@ public class BackEndDeveloper extends Developer{
                 addKnowledge(rand.nextInt(3, 6));
                 break;
         }
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void ask(Worker target) {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    int delay = rand.nextInt(12, 58) * 1000;
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("=========================================");
+                if (target.getStress() >= 80) {
+                    System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님이 잠시 쉬는게 좋을 것 같습니다. 너무 힘들어 보여요.");
+                } else {
+                    if (target.getClass() == Worker.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 서버실은 만지지 마세요. 전원 또 꺼뜨리실까봐요.");
+                                break;
+                            case 1:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 로그라도 확인해보셨어요?");
+                                break;
+                            case 2:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 데이터는 아무 데나 저장하는 게 아닙니다.");
+                                break;
+                        }
+                    } else if (target.getClass() == Developer.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 서버 자원 고려 안 하고 코드 짜신 거죠?");
+                                break;
+                            case 1:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 캐시 처리도 안 하고 배포하셨나요?");
+                                break;
+                            case 2:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 병목 로그가 잔뜩 찍히는데 확인 안 하셨죠?");
+                                break;
+                        }
+                    } else if (target.getClass() == Designer.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, GIF는 용량이 너무 커서 서버가 터집니다.");
+                                break;
+                            case 1:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 원본 PSD를 바로 올리시면 서버가 힘들어요.");
+                                break;
+                            case 2:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 해상도 8K는 좀 과한 거 아닌가요?");
+                                break;
+                        }
+                    } else if (target.getClass() == FrontendDeveloper.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, API 호출을 왜 1초에 10번씩 하시나요?");
+                                break;
+                            case 1:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 요청에 불필요한 파라미터가 너무 많습니다.");
+                                break;
+                            case 2:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 응답 캐싱 안 쓰고 매번 서버 두드리면 느릴 수밖에요.");
+                                break;
+                        }
+                    } else if (target.getClass() == BackEndDeveloper.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 쿼리 최적화 안 하셨죠?");
+                                break;
+                            case 1:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 배치 작업 로그가 계속 실패 뜹니다.");
+                                break;
+                            case 2:
+                                System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 트랜잭션 락 걸려서 서비스 멈춘 거 아세요?");
+                                break;
+                        }
+                    } else {
+                        System.out.println("🗄️ BackendDeveloper : " + target.getName() + "님, 당신 누구세요?");
+                    }
+                    target.addStress(rand.nextInt(4, 8));
+                    System.out.printf("💡 %s의 현재 상태 | 스트레스: %d, 지식: %d\n", target.getName(), target.getStress(), target.getKnowledge());
+                }
+            }
+        }).start();
     }
 }

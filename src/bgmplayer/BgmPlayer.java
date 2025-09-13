@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class BgmPlayer implements Runnable{
-    private String filePath;
+    private final String filePath;
 
     public BgmPlayer(String filePath){
         this.filePath = filePath;

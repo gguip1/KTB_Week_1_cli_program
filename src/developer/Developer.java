@@ -1,5 +1,6 @@
 package developer;
 
+import designer.Designer;
 import worker.Worker;
 
 public class Developer extends Worker {
@@ -67,5 +68,64 @@ public class Developer extends Worker {
                 addKnowledge(rand.nextInt(4, 7));
                 break;
         }
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void ask(Worker target) {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    int delay = rand.nextInt(8, 60) * 1000;
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("=========================================");
+                if (target.getStress() >= 80){
+                    System.out.println("💻 Developer : " + target.getName() + "님, 지금 너무 힘들어 보여요. 잠시 쉬는 게 어떨까요?");
+                } else {
+                    if (target.getClass() == Worker.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0: System.out.println("💻 Developer : " + target.getName() + "님, 단순 반복 작업은 자동화하면 더 빠른데요?"); break;
+                            case 1: System.out.println("💻 Developer : " + target.getName() + "님, 이런 건 스크립트 짜면 하루 만에 끝납니다."); break;
+                            case 2: System.out.println("💻 Developer : " + target.getName() + "님, 이거 엑셀 매크로라도 쓰셨으면 벌써 됐을걸요?"); break;
+                        }
+                    } else if (target.getClass() == Developer.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0: System.out.println("💻 Developer : " + target.getName() + "님, 변수명 또 a, b, c로 하셨네요?"); break;
+                            case 1: System.out.println("💻 Developer : " + target.getName() + "님, 유닛 테스트 하나도 없는데요?"); break;
+                            case 2: System.out.println("💻 Developer : " + target.getName() + "님, 지난번 버그 그대로 재현됩니다!"); break;
+                        }
+                    } else if (target.getClass() == Designer.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0: System.out.println("💻 Developer : " + target.getName() + "님, 시안이 너무 무겁습니다. 성능 고려 안 하셨나요?"); break;
+                            case 1: System.out.println("💻 Developer : " + target.getName() + "님, 이 색상은 접근성 테스트 통과 안 될 것 같은데요?"); break;
+                            case 2: System.out.println("💻 Developer : " + target.getName() + "님, 애니메이션 효과가 CPU 다 잡아먹습니다."); break;
+                        }
+                    } else if (target.getClass() == FrontendDeveloper.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0: System.out.println("💻 Developer : " + target.getName() + "님, API 응답 처리 제대로 안 해서 화면 깨집니다."); break;
+                            case 1: System.out.println("💻 Developer : " + target.getName() + "님, 또 CORS 에러 났는데 설정 확인 안 하셨어요?"); break;
+                            case 2: System.out.println("💻 Developer : " + target.getName() + "님, 콘솔에 에러 로그 잔뜩인데 왜 무시하세요?"); break;
+                        }
+                    } else if (target.getClass() == BackEndDeveloper.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0: System.out.println("💻 Developer : " + target.getName() + "님, API 문서랑 실제 응답 또 달라요!"); break;
+                            case 1: System.out.println("💻 Developer : " + target.getName() + "님, DB 쿼리 느려서 페이지 로딩이 안 됩니다."); break;
+                            case 2: System.out.println("💻 Developer : " + target.getName() + "님, 에러 코드 200인데 에러 메시지가 와요. 왜죠?"); break;
+                        }
+                    } else {
+                        System.out.println("💻 Developer : " + target.getName() + "님, 당신 누구세요?");
+                    }
+                    target.addStress(rand.nextInt(4, 8));
+                    System.out.printf("💡 %s의 현재 상태 | 스트레스: %d, 지식: %d\n", target.getName(), target.getStress(), target.getKnowledge());
+                }
+            }
+        }).start();
     }
 }

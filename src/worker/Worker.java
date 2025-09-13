@@ -1,5 +1,10 @@
 package worker;
 
+import designer.Designer;
+import developer.BackEndDeveloper;
+import developer.Developer;
+import developer.FrontendDeveloper;
+
 import java.util.Random;
 
 public class Worker {
@@ -61,6 +66,11 @@ public class Worker {
                 addKnowledge(rand.nextInt(2, 5));
                 break;
         }
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void vacation() {
@@ -112,21 +122,111 @@ public class Worker {
                 addKnowledge(-2);
                 break;
         }
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void ask(Worker target){
+        new Thread(() -> {
+            while(true) {
+                try {
+                    int delay = rand.nextInt(24, 120) * 1000;
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("=========================================");
+
+                if (target.getStress() >= 80) {
+                    System.out.println("🗯️ Worker : " + target.getName() + "님이 잠시 쉬는게 좋을 것 같습니다. 너무 힘들어 보여요.");
+                } else {
+                    // 하드 코딩한 레전드 코드 ㅋㅋ
+                    if (target.getClass() == Worker.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 점심시간인데 아직도 안 끝내셨어요?");
+                                break;
+                            case 1:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 이거 오늘 안에 끝낼 수 있나요?");
+                                break;
+                            case 2:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 다 같이 하는데 왜 항상 제일 느리신 거죠?");
+                                break;
+                        }
+                    } else if (target.getClass() == Developer.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 코드만 만지작거리지 말고 좀 몸도 움직여 보세요.");
+                                break;
+                            case 1:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 컴퓨터만 보니까 일이 안 끝나는 거 아닌가요?");
+                                break;
+                            case 2:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 버그 버그 하지 말고 우리처럼 힘으로 밀면 안 되나요?");
+                                break;
+                        }
+                    } else if (target.getClass() == Designer.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 색깔만 고르면서 하루 다 보내는 거예요?");
+                                break;
+                            case 1:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 버튼 하나 옮기는 데 왜 그렇게 오래 걸리죠?");
+                                break;
+                            case 2:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 그림만 그리는데 왜 야근까지 하세요?");
+                                break;
+                        }
+                    } else if (target.getClass() == FrontendDeveloper.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 클릭했는데 왜 화면이 안 바뀌나요?");
+                                break;
+                            case 1:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 모바일에서 글자가 다 짤려요. 이게 정상이에요?");
+                                break;
+                            case 2:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 그냥 보여주기만 하는 건데 왜 이렇게 어렵게 말해요?");
+                                break;
+                        }
+                    } else if (target.getClass() == BackEndDeveloper.class) {
+                        switch (rand.nextInt(3)) {
+                            case 0:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 서버 또 죽었네요. 그냥 리부트하면 끝나는 거 아닌가요?");
+                                break;
+                            case 1:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, DB가 뭔데 이렇게 오래 걸리죠? 엑셀보다 느린 거 같은데요?");
+                                break;
+                            case 2:
+                                System.out.println("🗯️ Worker : " + target.getName() + "님, 우리한테는 로그인만 되면 되는 거 아닌가요?");
+                                break;
+                        }
+                    } else {
+                        System.out.println("🗯️ Worker : " + target.getName() + "님, 당신 누구세요?");
+                    }
+                    target.addStress(rand.nextInt(4, 8));
+                    System.out.printf("💡 %s의 현재 상태 | 스트레스: %d, 지식: %d\n", target.getName(), target.getStress(), target.getKnowledge());
+                }
+            }
+        }).start();
     }
 
     public String getName(){
         return name;
     }
 
-    public int getStress(){
+    public synchronized int getStress(){
         return stress;
     }
 
-    public int getKnowledge(){
+    public synchronized int getKnowledge(){
         return knowledge;
     }
 
-    public void addStress(int value){
+    public synchronized void addStress(int value){
         if (stress + value < 0) {
             stress = 0;
         } else {
@@ -134,7 +234,7 @@ public class Worker {
         }
     }
 
-    public void addKnowledge(int value){
+    public synchronized void addKnowledge(int value){
         knowledge += value;
     }
 }
